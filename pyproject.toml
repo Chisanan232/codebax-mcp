@@ -30,8 +30,11 @@ classifiers = [
 dependencies = []
 
 [project.urls]
-Homepage = "https://github.com/Chisanan232/Template-Python-Base-MCP-Server"
-Repository = "https://github.com/Chisanan232/Template-Python-Base-MCP-Server"
+Homepage = "https://github.com/Chisanan232/codebax-mcp"
+Repository = "https://github.com/Chisanan232/codebax-mcp"
+Documentation = "https://chisanan232.github.io/codebax-mcp/"
+Changelog = "https://chisanan232.github.io/codebax-mcp/docs/next/changelog"
+"Project Management" = "https://app.clickup.com/9018752317/v/f/901812716691/90184991515"
 
 [project.scripts]
 mcp-server-template = "src.entry:main"
