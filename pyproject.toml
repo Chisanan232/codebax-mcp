@@ -43,7 +43,7 @@ Changelog = "https://chisanan232.github.io/codebax-mcp/docs/next/changelog"
 "Project Management" = "https://app.clickup.com/9018752317/v/f/901812716691/90184991515"
 
 [project.scripts]
-mcp-server-template = "codebax_mcp.entry:main"
+codebax-mcp = "codebax_mcp.entry:main"
 
 [project.optional-dependencies]
 # MCP core feature set supports SSE/Streamable transports (but doesn't support integrated mode)
