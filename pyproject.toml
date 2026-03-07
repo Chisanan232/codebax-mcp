@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "mcp-server-template"
+name = "codebax-mcp"
 version = "0.0.0"
 description = "🐍 Just a template of Python bases and UV managed MCP server project."
 authors = [{ name = "test", email = "test@test.com" }]
