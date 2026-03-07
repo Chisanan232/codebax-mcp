@@ -3,7 +3,7 @@ name: docker-ci
 on:
   push:
     branches:
-      - "<your_base_branch>"
+      - "master"
     paths:
 #     For GitHub Action
       - ".github/workflows/docker-ci.yml"
@@ -21,7 +21,7 @@ on:
   # or other checking, i.e., record the test report by CodeCov and check the code quality by SonarQube.
   pull_request:
     branches:
-      - "<your_base_branch>"
+      - "master"
     paths:
 #     For GitHub Action
       - ".github/workflows/docker-ci.yml"
