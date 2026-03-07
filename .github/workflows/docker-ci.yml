@@ -36,8 +36,8 @@ on:
       - "uv.lock"
 
 env:
-  TEST_TAG: user/<your_project_name>:test
-  TEST_CONTAINER_NAME: <your_project_name>
+  TEST_TAG: user/codebax-mcp:test
+  TEST_CONTAINER_NAME: codebax-mcp
 
 jobs:
   image-check:
