@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "codebax-mcp"
 version = "0.0.0"
 description = "🧑‍💻 Like an IDE runtime functions for LLM tools or AI agents."
-authors = [{ name = "test", email = "test@test.com" }]
+authors = [{ name = "Chisanan232", email = "chi10211201@cycu.org.tw" }]
 requires-python = ">=3.12,<4.0"
 readme = "README.md"
 license = { file = "LICENSE" }
