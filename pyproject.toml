@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "codebax-mcp"
 version = "0.0.0"
-description = "🐍 Just a template of Python bases and UV managed MCP server project."
+description = "🧑‍💻 Like an IDE runtime functions for LLM tools or AI agents."
 authors = [{ name = "test", email = "test@test.com" }]
 requires-python = ">=3.12,<4.0"
 readme = "README.md"
