@@ -12,8 +12,14 @@ readme = "README.md"
 license = { file = "LICENSE" }
 keywords = [
     "mcp",
-    "mcp-server",
-    "template",
+    "mcp server",
+    "software",
+    "software development",
+    "codebase",
+    "code index",
+    "development tools",
+    "AI agents develop",
+    "LLM tools develop",
 ]
 classifiers = [
     "Development Status :: 3 - Alpha",
