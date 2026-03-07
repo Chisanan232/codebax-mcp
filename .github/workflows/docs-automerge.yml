@@ -27,7 +27,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           filters: |
             code:
-              - '<your_package_name>/**'
+              - 'codebax_mcp/**'
               - 'examples/**'
               - 'scripts/**'
               - 'test/**'

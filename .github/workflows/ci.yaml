@@ -14,7 +14,7 @@ on:
       - ".github/workflows/rw_build_and_test.yaml"
       - ".github/workflows/rw_run_all_test_and_record.yaml"
 #     For source code and test
-      - "<your_package_name>/**/*.py"
+      - "codebax_mcp/**/*.py"
       - "test/**/*.py"
 #     For shell script for CI
       - "scripts/run_all_tests.sh"
@@ -40,7 +40,7 @@ on:
       - ".github/workflows/rw_build_and_test.yaml"
       - ".github/workflows/rw_run_all_test_and_record.yaml"
 #     For source code and test
-      - "<your_package_name>/**/*.py"
+      - "codebax_mcp/**/*.py"
       - "test/**/*.py"
 #     For shell script for CI
       - "scripts/run_all_tests.sh"
