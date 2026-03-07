@@ -399,7 +399,7 @@ def run_standalone_server(config: ServerConfig) -> None:
     # Run server based on transport
     if config.transport == MCPTransportType.SSE or config.transport == MCPTransportType.HTTP_STREAMING:
         # HTTP-based transport - run with uvicorn
-        from src.web_server.app import create_app
+        from codebax_mcp.web_server.app import create_app
 
         app = create_app(config)
         _LOG.info(f"Starting MCP server with {config.transport} transport on {config.host}:{config.port}")

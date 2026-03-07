@@ -4,15 +4,15 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from src._base import BaseServerFactory
-from src.integrate.app import (
+from codebax_mcp._base import BaseServerFactory
+from codebax_mcp.integrate.app import (
     IntegratedServerFactory,
     integrated_factory,
     integrated_server_lifecycle,
 )
-from src.mcp.app import MCPServerFactory
-from src.models.cli import MCPTransportType
-from src.web_server.app import WebServerFactory
+from codebax_mcp.mcp.app import MCPServerFactory
+from codebax_mcp.models.cli import MCPTransportType
+from codebax_mcp.web_server.app import WebServerFactory
 
 
 class TestIntegratedServerFactory:

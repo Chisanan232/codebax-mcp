@@ -262,6 +262,6 @@ force-single-line = false
 ]
 
 # Type definitions module - allow module name shadowing
-"src/types.py" = [
+"codebax_mcp/types.py" = [
     "A005",  # module name shadowing
 ]

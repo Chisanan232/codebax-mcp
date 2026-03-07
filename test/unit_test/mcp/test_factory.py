@@ -4,8 +4,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from src._base import BaseServerFactory
-from src.mcp.app import MCPServerFactory, mcp_factory
+from codebax_mcp._base import BaseServerFactory
+from codebax_mcp.mcp.app import MCPServerFactory, mcp_factory
 
 
 class TestMCPServerFactory:

@@ -27,7 +27,7 @@ repos:
     rev: v1.19.1
     hooks:
       - id: mypy
-        package: src,test
+        package: codebax_mcp,test
   #      exclude: ^test/unit_test.{1,64}.py
         args:
   #        - --strict

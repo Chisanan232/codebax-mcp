@@ -5,7 +5,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from src.entry import (
+from codebax_mcp.entry import (
     configure_logging,
     create_server_config,
     initialize_server_environment,
@@ -14,7 +14,7 @@ from src.entry import (
     run_integrated_server,
     run_standalone_server,
 )
-from src.models.cli import LogLevel, MCPTransportType, ServerConfig
+from codebax_mcp.models.cli import LogLevel, MCPTransportType, ServerConfig
 
 
 class TestParseArgs:

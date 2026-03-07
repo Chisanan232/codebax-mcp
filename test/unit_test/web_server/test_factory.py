@@ -4,10 +4,10 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from src._base import BaseServerFactory
-from src.mcp.app import MCPServerFactory
-from src.models.cli import MCPTransportType
-from src.web_server.app import WebServerFactory, web_factory
+from codebax_mcp._base import BaseServerFactory
+from codebax_mcp.mcp.app import MCPServerFactory
+from codebax_mcp.models.cli import MCPTransportType
+from codebax_mcp.web_server.app import WebServerFactory, web_factory
 
 
 class TestWebServerFactory:
@@ -197,7 +197,7 @@ class TestWebService:
         mock_mcp_factory.get.return_value.sse_app.return_value = mock_sse_app
 
         # Mount SSE service
-        from src.web_server.app import mount_service
+        from codebax_mcp.web_server.app import mount_service
 
         mount_service(MCPTransportType.SSE)
 
@@ -215,7 +215,7 @@ class TestWebService:
         mock_mcp_factory.get.return_value.streamable_http_app.return_value = mock_http_app
 
         # Mount HTTP streaming service
-        from src.web_server.app import mount_service
+        from codebax_mcp.web_server.app import mount_service
 
         mount_service(MCPTransportType.HTTP_STREAMING)
 
@@ -225,7 +225,7 @@ class TestWebService:
     def test_mount_service_invalid_transport(self) -> None:
         """Test mounting service with invalid transport."""
         with pytest.raises(ValueError, match="Unknown transport protocol"):
-            from src.web_server.app import mount_service
+            from codebax_mcp.web_server.app import mount_service
 
             mount_service("invalid_transport")  # This will raise ValueError for invalid transport
 
@@ -238,8 +238,8 @@ class TestWebService:
         mock_web_factory.get.return_value = mock_app
 
         # Import and test create_app
-        from src.models.cli import MCPTransportType, ServerConfig
-        from src.web_server.app import create_app
+        from codebax_mcp.models.cli import MCPTransportType, ServerConfig
+        from codebax_mcp.web_server.app import create_app
 
         # Test with default config
         app = create_app()

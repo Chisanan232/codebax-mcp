@@ -43,7 +43,7 @@ Changelog = "https://chisanan232.github.io/codebax-mcp/docs/next/changelog"
 "Project Management" = "https://app.clickup.com/9018752317/v/f/901812716691/90184991515"
 
 [project.scripts]
-mcp-server-template = "src.entry:main"
+mcp-server-template = "codebax_mcp.entry:main"
 
 [project.optional-dependencies]
 # MCP core feature set supports SSE/Streamable transports (but doesn't support integrated mode)
@@ -97,11 +97,11 @@ default-groups = [
 ]
 
 [tool.hatch.build.targets.sdist]
-include = ["src/"]
-packages = ["src"]
-artifacts = ["src/py.typed"]
+include = ["codebax_mcp/"]
+packages = ["codebax_mcp"]
+artifacts = ["codebax_mcp/py.typed"]
 
 [tool.hatch.build.targets.wheel]
-include = ["src/"]
-packages = ["src"]
-artifacts = ["src/py.typed"]
+include = ["codebax_mcp/"]
+packages = ["codebax_mcp"]
+artifacts = ["codebax_mcp/py.typed"]

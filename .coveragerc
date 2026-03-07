@@ -1,11 +1,11 @@
 [run]
 parallel = True
 relative_files = True
-include=./src
+include=./codebax_mcp
 
 omit =
 #    */__init__.py
-    ./src/__main__.py
+    ./codebax_mcp/__main__.py
 
 
 [report]
