@@ -6,8 +6,6 @@ used in FastAPI endpoints.
 
 from __future__ import annotations
 
-import pytest
-
 from codebax_mcp.web_server.dependencies.health import (
     get_health_service,
     reset_health_service,
@@ -99,7 +97,7 @@ class TestHealthServiceDependencyIntegration:
 
     def test_dependency_injection_in_fastapi(self) -> None:
         """Test that health service can be injected into FastAPI endpoints."""
-        from fastapi import FastAPI, Depends
+        from fastapi import Depends, FastAPI
 
         app = FastAPI()
 
@@ -120,7 +118,7 @@ class TestHealthServiceDependencyIntegration:
 
     def test_dependency_injection_multiple_endpoints(self) -> None:
         """Test that health service is shared across multiple endpoints."""
-        from fastapi import FastAPI, Depends
+        from fastapi import Depends, FastAPI
 
         app = FastAPI()
 

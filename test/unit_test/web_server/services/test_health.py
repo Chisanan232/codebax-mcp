@@ -6,8 +6,6 @@ service and its components.
 
 from __future__ import annotations
 
-import pytest
-
 from codebax_mcp.web_server.models.response.health_check import (
     HealthCheckDetailDto,
 )

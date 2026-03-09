@@ -11,13 +11,13 @@ from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
 from codebax_mcp.web_server.dependencies.health import reset_health_service
+from codebax_mcp.web_server.models.response.health_check import (
+    HealthCheckDetailDto,
+)
 from codebax_mcp.web_server.routers.health import get_health_router
 from codebax_mcp.web_server.services.health import (
     BaseHealthChecker,
     HealthCheckService,
-)
-from codebax_mcp.web_server.models.response.health_check import (
-    HealthCheckDetailDto,
 )
 
 
@@ -53,9 +53,7 @@ class TestComprehensiveHealthEndpoint:
         assert isinstance(data["checks"], list)
         assert len(data["checks"]) > 0
 
-    def test_comprehensive_health_check_response_structure(
-        self, client: TestClient
-    ) -> None:
+    def test_comprehensive_health_check_response_structure(self, client: TestClient) -> None:
         """Test comprehensive health check response structure."""
         response = client.get("/health")
 
@@ -80,9 +78,7 @@ class TestComprehensiveHealthEndpoint:
             assert "message" in check or check["message"] is None
             assert "details" in check or check["details"] is None
 
-    def test_comprehensive_health_check_contains_application_check(
-        self, client: TestClient
-    ) -> None:
+    def test_comprehensive_health_check_contains_application_check(self, client: TestClient) -> None:
         """Test that comprehensive health check includes application check."""
         response = client.get("/health")
 
@@ -92,9 +88,7 @@ class TestComprehensiveHealthEndpoint:
         check_names = [check["name"] for check in data["checks"]]
         assert "application" in check_names
 
-    def test_comprehensive_health_check_contains_mcp_check(
-        self, client: TestClient
-    ) -> None:
+    def test_comprehensive_health_check_contains_mcp_check(self, client: TestClient) -> None:
         """Test that comprehensive health check includes MCP server check."""
         response = client.get("/health")
 
@@ -104,9 +98,7 @@ class TestComprehensiveHealthEndpoint:
         check_names = [check["name"] for check in data["checks"]]
         assert "mcp_server" in check_names
 
-    def test_comprehensive_health_check_unhealthy_returns_503(
-        self, app: FastAPI
-    ) -> None:
+    def test_comprehensive_health_check_unhealthy_returns_503(self, app: FastAPI) -> None:
         """Test that unhealthy status returns 503 status code."""
         # Create a custom app with an unhealthy checker
         reset_health_service()
@@ -250,9 +242,7 @@ class TestHealthEndpointIntegration:
             response = client.get(endpoint)
             assert response.headers["content-type"] == "application/json"
 
-    def test_comprehensive_vs_simple_health_consistency(
-        self, client: TestClient
-    ) -> None:
+    def test_comprehensive_vs_simple_health_consistency(self, client: TestClient) -> None:
         """Test consistency between comprehensive and simple health checks."""
         comprehensive = client.get("/health").json()
         simple = client.get("/health/simple").json()
@@ -261,9 +251,7 @@ class TestHealthEndpointIntegration:
         if comprehensive["status"] == "healthy":
             assert simple["status"] == "ok"
 
-    def test_readiness_vs_comprehensive_health_consistency(
-        self, client: TestClient
-    ) -> None:
+    def test_readiness_vs_comprehensive_health_consistency(self, client: TestClient) -> None:
         """Test consistency between readiness and comprehensive health checks."""
         comprehensive = client.get("/health").json()
         readiness = client.get("/health/ready").json()
@@ -282,9 +270,7 @@ class TestHealthEndpointIntegration:
 class TestHealthEndpointErrorHandling:
     """Tests for error handling in health endpoints."""
 
-    def test_comprehensive_health_handles_missing_service(
-        self, app: FastAPI
-    ) -> None:
+    def test_comprehensive_health_handles_missing_service(self, app: FastAPI) -> None:
         """Test comprehensive health endpoint handles missing service gracefully."""
         reset_health_service()
         app = FastAPI()
@@ -295,9 +281,7 @@ class TestHealthEndpointErrorHandling:
         # Should still return a response (200 or 503)
         assert response.status_code in [200, 503]
 
-    def test_health_endpoints_handle_concurrent_requests(
-        self, client: TestClient
-    ) -> None:
+    def test_health_endpoints_handle_concurrent_requests(self, client: TestClient) -> None:
         """Test that health endpoints handle concurrent requests."""
         # Simulate multiple concurrent requests
         responses = [client.get("/health") for _ in range(10)]

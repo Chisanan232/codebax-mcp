@@ -28,6 +28,7 @@ class HealthChecker(Protocol):
         -------
         HealthCheckDetailDto
             The health check result
+
         """
         ...
 
@@ -47,6 +48,7 @@ class BaseHealthChecker:
         ----------
         name : str
             Name of the health checker for identification
+
         """
         self.name = name
 
@@ -60,6 +62,7 @@ class BaseHealthChecker:
         -------
         HealthCheckDetailDto
             The health check result
+
         """
         try:
             return self._do_check_health()
@@ -86,6 +89,7 @@ class BaseHealthChecker:
         ------
         Exception
             If health check fails
+
         """
         error_msg = f"{self.__class__.__name__} must implement _do_check_health"
         raise NotImplementedError(error_msg)
@@ -105,6 +109,7 @@ class ApplicationHealthChecker(BaseHealthChecker):
         ----------
         version : str
             Application version
+
         """
         super().__init__("application")
         self.version = version
@@ -116,6 +121,7 @@ class ApplicationHealthChecker(BaseHealthChecker):
         -------
         HealthCheckDetailDto
             Application health status
+
         """
         return HealthCheckDetailDto(
             name=self.name,
@@ -142,6 +148,7 @@ class MCPServerHealthChecker(BaseHealthChecker):
         ----------
         transport : str
             MCP transport type (sse or http-streaming)
+
         """
         super().__init__("mcp_server")
         self.transport = transport
@@ -153,6 +160,7 @@ class MCPServerHealthChecker(BaseHealthChecker):
         -------
         HealthCheckDetailDto
             MCP server health status
+
         """
         return HealthCheckDetailDto(
             name=self.name,
@@ -183,6 +191,7 @@ class HealthCheckService:
         ----------
         checker : HealthChecker
             Health checker to register
+
         """
         self._checkers.append(checker)
 
@@ -193,6 +202,7 @@ class HealthCheckService:
         -------
         dict[str, Any]
             Dict containing overall health status and individual checker results
+
         """
         results: list[HealthCheckDetailDto] = []
         overall_status = "healthy"
@@ -210,9 +220,7 @@ class HealthCheckService:
 
             except Exception as e:
                 # Handle case where checker itself fails
-                checker_name = (
-                    checker.name if hasattr(checker, "name") else type(checker).__name__
-                )
+                checker_name = checker.name if hasattr(checker, "name") else type(checker).__name__
                 results.append(
                     HealthCheckDetailDto(
                         name=checker_name,
@@ -252,6 +260,7 @@ def create_default_health_service(version: str = "0.0.0") -> HealthCheckService:
     -------
     HealthCheckService
         Service with default health checkers registered
+
     """
     service = HealthCheckService()
 

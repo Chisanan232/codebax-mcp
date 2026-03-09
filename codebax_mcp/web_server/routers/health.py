@@ -11,7 +11,6 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from ..dependencies.health import get_health_service
 from ..models.response.health_check import (
     ComprehensiveHealthResponseDto,
-    HealthCheckDetailDto,
     LivenessResponseDto,
     ReadinessResponseDto,
     SimpleHealthResponseDto,
@@ -50,6 +49,7 @@ async def comprehensive_health_check(
     ------
     HTTPException
         If overall health status is unhealthy (503)
+
     """
     try:
         health_result = service.check_all_health()
@@ -122,6 +122,7 @@ async def simple_health_check(
     ------
     HTTPException
         If health check fails (503)
+
     """
     try:
         result = service.check_all_health()
@@ -173,6 +174,7 @@ async def readiness_check(
     ------
     HTTPException
         If application is not ready (503)
+
     """
     try:
         health_result = service.check_all_health()
@@ -221,6 +223,7 @@ async def liveness_check() -> LivenessResponseDto:
     -------
     LivenessResponseDto
         Liveness status
+
     """
     return LivenessResponseDto(alive=True)
 
@@ -235,5 +238,6 @@ def get_health_router() -> APIRouter:
     -------
     APIRouter
         Health check router instance
+
     """
     return router

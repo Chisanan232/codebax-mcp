@@ -247,7 +247,10 @@ class TestRunStandaloneServer:
         # Create config
         config = ServerConfig(transport=MCPTransportType.SSE)
 
-        with patch("codebax_mcp.web_server.app.create_app") as mock_create_app, patch("codebax_mcp.entry.uvicorn.run") as mock_uvicorn:
+        with (
+            patch("codebax_mcp.web_server.app.create_app") as mock_create_app,
+            patch("codebax_mcp.entry.uvicorn.run") as mock_uvicorn,
+        ):
             mock_app = MagicMock()
             mock_create_app.return_value = mock_app
 

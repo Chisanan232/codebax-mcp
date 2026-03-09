@@ -6,22 +6,22 @@ FastAPI application.
 """
 
 from __future__ import annotations
-import time
 
-from typing import Generator
+import time
+from collections.abc import Generator
 
 import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
 from codebax_mcp.web_server.dependencies.health import reset_health_service
-from codebax_mcp.web_server.routers.health import get_health_router
 from codebax_mcp.web_server.models.response.health_check import (
     ComprehensiveHealthResponseDto,
     LivenessResponseDto,
     ReadinessResponseDto,
     SimpleHealthResponseDto,
 )
+from codebax_mcp.web_server.routers.health import get_health_router
 
 
 @pytest.fixture
@@ -84,9 +84,7 @@ class TestHealthEndpointsIntegration:
         # Should have content-type header
         assert "content-type" in response.headers
 
-    @pytest.mark.parametrize(
-        "endpoint", ["/health", "/health/simple", "/health/ready", "/health/live"]
-    )
+    @pytest.mark.parametrize("endpoint", ["/health", "/health/simple", "/health/ready", "/health/live"])
     def test_health_endpoints_response_times(self, client: TestClient, endpoint: str) -> None:
         """Test that health endpoints respond quickly."""
         start = time.time()
@@ -103,9 +101,7 @@ class TestHealthEndpointsIntegration:
             response = client.get("/health")
             assert response.status_code == 200
 
-    def test_health_endpoints_consistency_across_calls(
-        self, client: TestClient
-    ) -> None:
+    def test_health_endpoints_consistency_across_calls(self, client: TestClient) -> None:
         """Test that health status is consistent across multiple calls."""
         responses = [client.get("/health") for _ in range(5)]
 
@@ -113,9 +109,7 @@ class TestHealthEndpointsIntegration:
         # All should have the same status
         assert len(set(statuses)) == 1
 
-    def test_comprehensive_health_includes_all_checks(
-        self, client: TestClient
-    ) -> None:
+    def test_comprehensive_health_includes_all_checks(self, client: TestClient) -> None:
         """Test that comprehensive health includes all registered checks."""
         response = client.get("/health")
 
@@ -127,9 +121,7 @@ class TestHealthEndpointsIntegration:
         assert "application" in check_names
         assert "mcp_server" in check_names
 
-    @pytest.mark.parametrize(
-        "endpoint", ["/health", "/health/simple", "/health/ready", "/health/live"]
-    )
+    @pytest.mark.parametrize("endpoint", ["/health", "/health/simple", "/health/ready", "/health/live"])
     def test_health_endpoints_json_format(self, client: TestClient, endpoint: str) -> None:
         """Test that all health endpoints return valid JSON."""
         response = client.get(endpoint)
@@ -139,11 +131,11 @@ class TestHealthEndpointsIntegration:
         data = response.json()
         assert isinstance(data, dict)
 
-    @pytest.mark.parametrize(
-        "endpoint", ["/health", "/health/simple", "/health/ready", "/health/live"]
-    )
+    @pytest.mark.parametrize("endpoint", ["/health", "/health/simple", "/health/ready", "/health/live"])
     def test_health_endpoints_no_errors_in_response(
-        self, client: TestClient, endpoint: str,
+        self,
+        client: TestClient,
+        endpoint: str,
     ) -> None:
         """Test that health endpoints don't return error responses."""
         response = client.get(endpoint)
@@ -154,9 +146,7 @@ class TestHealthEndpointsIntegration:
 class TestHealthEndpointsWithApplicationContext:
     """Tests for health endpoints within application context."""
 
-    def test_health_endpoints_available_after_app_creation(
-        self, app: FastAPI
-    ) -> None:
+    def test_health_endpoints_available_after_app_creation(self, app: FastAPI) -> None:
         """Test that health endpoints are available after app creation."""
         client = TestClient(app)
 

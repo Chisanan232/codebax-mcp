@@ -6,7 +6,6 @@ supporting different levels of detail and use cases.
 
 from __future__ import annotations
 
-from datetime import datetime
 from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -25,12 +24,11 @@ class HealthCheckDetailDto(BaseModel):
         Optional message providing additional context
     details : dict[str, Any] | None
         Additional details about the health check result
+
     """
 
     name: str = Field(description="Name of the health checker")
-    status: Literal["healthy", "degraded", "unhealthy"] = Field(
-        description="Status of the component"
-    )
+    status: Literal["healthy", "degraded", "unhealthy"] = Field(description="Status of the component")
     message: str | None = Field(
         default=None,
         description="Optional message providing additional context",
@@ -59,6 +57,7 @@ class ComprehensiveHealthResponseDto(BaseModel):
         Server uptime in seconds
     checks : list[HealthCheckDetailDto]
         Individual health check results for different components
+
     """
 
     model_config = ConfigDict(
@@ -88,17 +87,11 @@ class ComprehensiveHealthResponseDto(BaseModel):
         },
     )
 
-    status: Literal["healthy", "degraded", "unhealthy"] = Field(
-        description="Overall health status of the server"
-    )
-    timestamp: str = Field(
-        description="Timestamp of the health check in ISO format"
-    )
+    status: Literal["healthy", "degraded", "unhealthy"] = Field(description="Overall health status of the server")
+    timestamp: str = Field(description="Timestamp of the health check in ISO format")
     version: str = Field(description="Server version information")
     uptime_seconds: float = Field(description="Server uptime in seconds")
-    checks: list[HealthCheckDetailDto] = Field(
-        description="Individual health check results for different components"
-    )
+    checks: list[HealthCheckDetailDto] = Field(description="Individual health check results for different components")
 
 
 class SimpleHealthResponseDto(BaseModel):
@@ -111,6 +104,7 @@ class SimpleHealthResponseDto(BaseModel):
     ----------
     status : Literal["ok", "error"]
         Simple health status
+
     """
 
     model_config = ConfigDict(
@@ -119,9 +113,7 @@ class SimpleHealthResponseDto(BaseModel):
         json_schema_extra={"example": {"status": "ok"}},
     )
 
-    status: Literal["ok", "error"] = Field(
-        description="Simple health status (ok or error)"
-    )
+    status: Literal["ok", "error"] = Field(description="Simple health status (ok or error)")
 
 
 class ReadinessResponseDto(BaseModel):
@@ -133,14 +125,13 @@ class ReadinessResponseDto(BaseModel):
         Whether the application is ready to serve traffic
     message : str | None
         Optional message explaining readiness status
+
     """
 
     model_config = ConfigDict(
         use_enum_values=True,
         extra="forbid",
-        json_schema_extra={
-            "example": {"ready": True, "message": "Application is ready to serve traffic"}
-        },
+        json_schema_extra={"example": {"ready": True, "message": "Application is ready to serve traffic"}},
     )
 
     ready: bool = Field(description="Whether the application is ready to serve traffic")
@@ -157,6 +148,7 @@ class LivenessResponseDto(BaseModel):
     ----------
     alive : bool
         Whether the application process is alive and responsive
+
     """
 
     model_config = ConfigDict(
@@ -165,6 +157,4 @@ class LivenessResponseDto(BaseModel):
         json_schema_extra={"example": {"alive": True}},
     )
 
-    alive: bool = Field(
-        description="Whether the application process is alive and responsive"
-    )
+    alive: bool = Field(description="Whether the application process is alive and responsive")

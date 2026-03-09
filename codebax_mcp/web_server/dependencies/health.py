@@ -21,6 +21,7 @@ def get_health_service() -> HealthCheckService:
     -------
     HealthCheckService
         Health check service instance
+
     """
     global _health_service_instance
     if _health_service_instance is None:
