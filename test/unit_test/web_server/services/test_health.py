@@ -78,13 +78,14 @@ class TestBaseHealthChecker:
 
             def _do_check_health(self) -> HealthCheckDetailDto:
                 """Raise an exception."""
-                raise RuntimeError("Test error")
+                raise RuntimeError("Test error")  # noqa: EM101
 
         checker = FailingHealthChecker("failing")
         result = checker.check_health()
 
         assert result.name == "failing"
         assert result.status == "unhealthy"
+        assert result.message
         assert "Test error" in result.message
         assert result.details is not None
         assert "error" in result.details
@@ -212,7 +213,7 @@ class TestHealthCheckService:
 
             def _do_check_health(self) -> HealthCheckDetailDto:
                 """Raise an exception."""
-                raise RuntimeError("Checker failed")
+                raise RuntimeError
 
         service = HealthCheckService()
         service.register_checker(ApplicationHealthChecker())
