@@ -6,6 +6,8 @@ using Pythonic FastAPI decorators with dependency injection.
 
 from __future__ import annotations
 
+from typing import Annotated
+
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from ..dependencies.health import get_health_service
@@ -28,7 +30,7 @@ router = APIRouter(prefix="/health", tags=["health"])
     status_code=status.HTTP_200_OK,
 )
 async def comprehensive_health_check(
-    service: HealthCheckService = Depends(get_health_service),
+    service: Annotated[HealthCheckService, Depends(get_health_service)],
 ) -> ComprehensiveHealthResponseDto:
     """Perform comprehensive health check.
 
@@ -101,7 +103,7 @@ async def comprehensive_health_check(
     status_code=status.HTTP_200_OK,
 )
 async def simple_health_check(
-    service: HealthCheckService = Depends(get_health_service),
+    service: Annotated[HealthCheckService, Depends(get_health_service)],
 ) -> SimpleHealthResponseDto:
     """Perform simple health check.
 
@@ -152,7 +154,7 @@ async def simple_health_check(
     status_code=status.HTTP_200_OK,
 )
 async def readiness_check(
-    service: HealthCheckService = Depends(get_health_service),
+    service: Annotated[HealthCheckService, Depends(get_health_service)],
 ) -> ReadinessResponseDto:
     """Check if application is ready to serve traffic.
 

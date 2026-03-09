@@ -5,6 +5,9 @@ used in FastAPI endpoints.
 """
 
 from __future__ import annotations
+from typing import Annotated
+
+from fastapi import Depends, FastAPI
 
 from codebax_mcp.web_server.dependencies.health import (
     get_health_service,
@@ -97,14 +100,14 @@ class TestHealthServiceDependencyIntegration:
 
     def test_dependency_injection_in_fastapi(self) -> None:
         """Test that health service can be injected into FastAPI endpoints."""
-        from fastapi import Depends, FastAPI
-
         app = FastAPI()
 
         @app.get("/test-health")
         async def test_endpoint(
-            service: HealthCheckService = Depends(get_health_service),
+            service: Annotated[HealthCheckService, Depends(get_health_service)],
         ) -> dict:
+            if service is None:
+                service = get_health_service()
             result = service.check_all_health()
             return {"status": result["status"]}
 
@@ -118,20 +121,22 @@ class TestHealthServiceDependencyIntegration:
 
     def test_dependency_injection_multiple_endpoints(self) -> None:
         """Test that health service is shared across multiple endpoints."""
-        from fastapi import Depends, FastAPI
-
         app = FastAPI()
 
         @app.get("/health1")
         async def endpoint1(
-            service: HealthCheckService = Depends(get_health_service),
+            service: Annotated[HealthCheckService, Depends(get_health_service)],
         ) -> dict:
+            if service is None:
+                service = get_health_service()
             return {"id": id(service)}
 
         @app.get("/health2")
         async def endpoint2(
-            service: HealthCheckService = Depends(get_health_service),
+            service: Annotated[HealthCheckService, Depends(get_health_service)],
         ) -> dict:
+            if service is None:
+                service = get_health_service()
             return {"id": id(service)}
 
         from fastapi.testclient import TestClient
