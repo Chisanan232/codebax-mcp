@@ -5,6 +5,7 @@ used in FastAPI endpoints.
 """
 
 from __future__ import annotations
+
 from typing import Annotated
 
 from fastapi import Depends, FastAPI
