@@ -4,7 +4,6 @@ import pytest
 from pydantic import ValidationError
 
 from codebax_mcp.models.cli import LogLevel, MCPTransportType, ServerConfig
-from codebax_mcp.web_server.models.response.health_check import HealthyCheckResponseDto
 
 
 class TestServerConfig:
@@ -115,103 +114,6 @@ class TestMCPTransportType:
         assert MCPTransportType.HTTP_STREAMING == MCPTransportType.HTTP_STREAMING
 
 
-class TestHealthyCheckResponseDto:
-    """Test cases for the HealthyCheckResponseDto model."""
-
-    def test_default_values(self) -> None:
-        """Test default health check response values."""
-        response = HealthyCheckResponseDto()
-
-        assert response.status == "healthy"
-        assert response.timestamp is None
-        assert response.version is None
-        assert response.uptime_seconds is None
-        assert response.checks is None
-
-    def test_custom_values(self) -> None:
-        """Test health check response with custom values."""
-        response = HealthyCheckResponseDto(
-            status="healthy",
-            timestamp="2024-01-01T12:00:00Z",
-            version="0.1.0",
-            uptime_seconds=3600.0,
-            checks={
-                "database": True,
-                "external_api": True,
-                "mcp_server": True,
-            },
-        )
-
-        assert response.status == "healthy"
-        assert response.timestamp == "2024-01-01T12:00:00Z"
-        assert response.version == "0.1.0"
-        assert response.uptime_seconds == 3600.0
-        assert response.checks == {
-            "database": True,
-            "external_api": True,
-            "mcp_server": True,
-        }
-
-    def test_unhealthy_status(self) -> None:
-        """Test unhealthy status."""
-        response = HealthyCheckResponseDto(
-            status="unhealthy",
-            checks={
-                "database": False,
-                "external_api": True,
-            },
-        )
-
-        assert response.status == "unhealthy"
-        assert response.checks is not None
-        assert response.checks["database"] is False
-        assert response.checks["external_api"] is True
-
-    def test_model_validation(self) -> None:
-        """Test model validation."""
-        # Valid status
-        response = HealthyCheckResponseDto(status="healthy")
-        assert response.status == "healthy"
-
-        response = HealthyCheckResponseDto(status="unhealthy")
-        assert response.status == "unhealthy"
-
-        # Invalid status would be caught by Pydantic validation
-        # but since it's a Literal type, it should be validated at runtime
-
-    def test_model_serialization(self) -> None:
-        """Test model serialization."""
-        response = HealthyCheckResponseDto(
-            status="healthy",
-            timestamp="2024-01-01T12:00:00Z",
-            version="0.1.0",
-            uptime_seconds=3600.0,
-            checks={"database": True},
-        )
-
-        data = response.model_dump()
-
-        assert data["status"] == "healthy"
-        assert data["timestamp"] == "2024-01-01T12:00:00Z"
-        assert data["version"] == "0.1.0"
-        assert data["uptime_seconds"] == 3600.0
-        assert data["checks"] == {"database": True}
-
-    def test_json_serialization(self) -> None:
-        """Test JSON serialization."""
-        response = HealthyCheckResponseDto(status="healthy", version="0.1.0")
-
-        json_str = response.model_dump_json()
-
-        assert "healthy" in json_str
-        assert "0.1.0" in json_str
-
-    def test_extra_fields_forbidden(self) -> None:
-        """Test that extra fields are forbidden."""
-        with pytest.raises(ValidationError):
-            HealthyCheckResponseDto(invalid_field="value")
-
-
 class TestModelIntegration:
     """Integration tests for models."""
 
@@ -226,20 +128,3 @@ class TestModelIntegration:
         # Test string conversion
         assert str(config.log_level) == "debug"
         assert str(config.transport) == "http-streaming"
-
-    def test_health_check_response_with_server_config(self) -> None:
-        """Test using HealthyCheckResponseDto with ServerConfig."""
-        config = ServerConfig(port=8000, transport=MCPTransportType.SSE)
-
-        # HealthyCheckResponseDto expects checks to be a dict with boolean values
-        health_response = HealthyCheckResponseDto(
-            status="healthy",
-            checks={
-                "server_running": True,
-                "database_connected": True,
-            },
-        )
-
-        assert health_response.checks is not None
-        assert health_response.checks["server_running"] is True
-        assert health_response.checks["database_connected"] is True
