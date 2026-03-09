@@ -26,7 +26,6 @@ router = APIRouter(prefix="/health", tags=["health"])
     "",
     summary="Comprehensive health check",
     description="Check health of all system components",
-    response_model=ComprehensiveHealthResponseDto,
     status_code=status.HTTP_200_OK,
 )
 async def comprehensive_health_check(
@@ -99,7 +98,6 @@ async def comprehensive_health_check(
     "/simple",
     summary="Simple health check",
     description="Basic health check for load balancers",
-    response_model=SimpleHealthResponseDto,
     status_code=status.HTTP_200_OK,
 )
 async def simple_health_check(
@@ -150,7 +148,6 @@ async def simple_health_check(
     "/ready",
     summary="Readiness check",
     description="Check if application is ready to serve traffic",
-    response_model=ReadinessResponseDto,
     status_code=status.HTTP_200_OK,
 )
 async def readiness_check(
@@ -212,7 +209,6 @@ async def readiness_check(
     "/live",
     summary="Liveness check",
     description="Check if application is alive and responsive",
-    response_model=LivenessResponseDto,
     status_code=status.HTTP_200_OK,
 )
 async def liveness_check() -> LivenessResponseDto:
