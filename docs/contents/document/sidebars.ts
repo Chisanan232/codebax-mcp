@@ -10,11 +10,11 @@ const sidebars: SidebarsConfig = {
       id: 'introduction',
       label: '📖 Introduction',
     },
-    {
-      type: 'doc',
-      id: 'getting-started-summary',
-      label: '🚀 Getting Started Summary',
-    },
+    // {
+    //   type: 'doc',
+    //   id: 'getting-started-summary',
+    //   label: '🚀 Getting Started Summary',
+    // },
     {
       type: 'category',
       label: '🤟 Getting Started',
