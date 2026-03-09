@@ -10,11 +10,11 @@ const sidebars: SidebarsConfig = {
       id: 'introduction',
       label: '📖 Introduction',
     },
-    {
-      type: 'doc',
-      id: 'getting-started-summary',
-      label: '🚀 Getting Started Summary',
-    },
+    // {
+    //   type: 'doc',
+    //   id: 'getting-started-summary',
+    //   label: '🚀 Getting Started Summary',
+    // },
     {
       type: 'category',
       label: '🤟 Getting Started',
@@ -42,36 +42,36 @@ const sidebars: SidebarsConfig = {
         },
       ],
     },
-    {
-      type: 'doc',
-      id: 'architecture',
-      label: '🏗️ Architecture Overview',
-    },
-    {
-      type: 'doc',
-      id: 'usage-guide',
-      label: '📖 Usage Guide',
-    },
-    {
-      type: 'doc',
-      id: 'examples',
-      label: '💡 Examples & Tutorials',
-    },
-    {
-      type: 'doc',
-      id: 'deployment',
-      label: '🚀 Deployment Guide',
-    },
-    {
-      type: 'doc',
-      id: 'best-practices',
-      label: '✨ Best Practices',
-    },
-    {
-      type: 'doc',
-      id: 'documentation-overview',
-      label: '📚 Documentation Overview',
-    },
+    // {
+    //   type: 'doc',
+    //   id: 'architecture',
+    //   label: '🏗️ Architecture Overview',
+    // },
+    // {
+    //   type: 'doc',
+    //   id: 'usage-guide',
+    //   label: '📖 Usage Guide',
+    // },
+    // {
+    //   type: 'doc',
+    //   id: 'examples',
+    //   label: '💡 Examples & Tutorials',
+    // },
+    // {
+    //   type: 'doc',
+    //   id: 'deployment',
+    //   label: '🚀 Deployment Guide',
+    // },
+    // {
+    //   type: 'doc',
+    //   id: 'best-practices',
+    //   label: '✨ Best Practices',
+    // },
+    // {
+    //   type: 'doc',
+    //   id: 'documentation-overview',
+    //   label: '📚 Documentation Overview',
+    // },
     {
       type: 'category',
       label: '🧑‍💻 API References',

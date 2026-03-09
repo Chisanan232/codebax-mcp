@@ -33,7 +33,20 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
 ]
-dependencies = []
+dependencies = [
+    # Web server
+    "fastapi>=0.128.0",
+    # Data type validation as data models
+    "pydantic>=2.12.5",
+    # Data type validation as data models for settings (e.g., dotenv file)
+    "pydantic-settings>=2.12.0",
+    # ASGI server
+    "uvicorn>=0.40.0",
+    # MCP core feature
+    "mcp[cli]>=1.26.0",
+    # HTTP API client feature
+    "httpx>=0.28.1",
+]
 
 [project.urls]
 Homepage = "https://github.com/Chisanan232/codebax-mcp"
@@ -43,36 +56,7 @@ Changelog = "https://chisanan232.github.io/codebax-mcp/docs/next/changelog"
 "Project Management" = "https://app.clickup.com/9018752317/v/f/901812716691/90184991515"
 
 [project.scripts]
-mcp-server-template = "codebax_mcp.entry:main"
-
-[project.optional-dependencies]
-# MCP core feature set supports SSE/Streamable transports (but doesn't support integrated mode)
-mcp = [
-    "fastapi>=0.128.0",
-    "pydantic>=2.12.5",
-    "pydantic-settings>=2.12.0",
-    "uvicorn>=0.40.0",
-    "mcp[cli]>=1.26.0",
-    "httpx>=0.28.1",
-]
-
-# HTTP server support for webhook features (but doesn't support integrated mode)
-webhook = [
-    "fastapi>=0.128.0",
-    "pydantic>=2.12.5",
-    "pydantic-settings>=2.12.0",
-    "uvicorn>=0.40.0",
-]
-
-# Everything supported by this project
-all = [
-    "fastapi>=0.128.0",
-    "pydantic>=2.12.5",
-    "pydantic-settings>=2.12.0",
-    "uvicorn>=0.40.0",
-    "mcp[cli]>=1.26.0",
-    "httpx>=0.28.1",
-]
+codebax-mcp = "codebax_mcp.entry:main"
 
 [dependency-groups]
 dev = [

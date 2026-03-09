@@ -54,7 +54,7 @@ docker:
     path: "/health"                # Health check endpoint path
   
   # Flexible Docker run options - supports multiple env vars, volumes, networks, etc.
-  run_options: "-e API_TOKEN=test_token -e DEBUG=true"  # Custom Docker run options for testing
+  run_options: "-e SERVER_HOST=0.0.0.0 -e MCP_TRANSPORT=sse -e LOG_LEVEL=debug"  # Custom Docker run options for testing
 
 # === VALIDATION CONFIGURATION ===
 validation:

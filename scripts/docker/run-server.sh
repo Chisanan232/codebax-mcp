@@ -2,42 +2,63 @@
 set -e
 
 #
-# This script is a router that runs either the MCP server or Slack webhook server
-# based on the SERVICE_TYPE environment variable.
-#
 # Environment variables:
 #
-# SERVICE_TYPE → Determines which service to run
-#    - "mcp": Runs the MCP server (run-slack-mcp-server.sh)
-#    - "webhook": Runs the Slack webhook server (run-slack-webhook-server.sh)
-#    - "integrated": Runs either server in integrated mode
-#
-# For all other environment variables, see the respective server scripts:
-# - run-slack-mcp-server.sh
-# - run-slack-webhook-server.sh
-#
-# Example usage:
-# # Run MCP server
-# SERVICE_TYPE=mcp ./run-server.sh
-#
-## Run webhook server
-# SERVICE_TYPE=webhook ./run-server.sh
-#
-## Run integrated server via MCP entry point
-# SERVICE_TYPE=integrated ./run-server.sh
-#
-## Run integrated server via webhook entry point
-# SERVICE_TYPE=integrated-webhook ./run-server.sh
+# SERVER_HOST → --host
+# SERVER_PORT → --port
+# MCP_TRANSPORT → --transport
+# LOG_LEVEL → --log-level
+# ENV_FILE → --env-file
+# RELOAD → --reload
+# INTEGRATED → --integrated (run in integrated mode)
 #
 
-# Default to MCP server if SERVICE_TYPE is not set
-SERVICE_TYPE=${SERVICE_TYPE:-mcp}
+# Initialize command line arguments array
+CMD_ARGS=()
 
-# Directory where this script is located
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+# Map environment variables to command line options
 
-# Print informational message
-echo "SERVICE_TYPE is set to: ${SERVICE_TYPE}"
+# HOST: Host for FastAPI HTTP transports (used for sse or streamable-http)
+if [ -n "${SERVER_HOST}" ]; then
+  CMD_ARGS+=(--host "${SERVER_HOST}")
+fi
 
-# Determine which server to run based on SERVICE_TYPE
-# Your own docker script to run or set up something
+# PORT: Port for FastAPI HTTP transports
+if [ -n "${SERVER_PORT}" ]; then
+  CMD_ARGS+=(--port "${SERVER_PORT}")
+fi
+
+# TRANSPORT: Transport mode for MCP server (stdio, sse, http-streaming)
+if [ -n "${MCP_TRANSPORT}" ]; then
+  CMD_ARGS+=(--transport "${MCP_TRANSPORT}")
+fi
+
+# LOG_LEVEL: Python logging level
+if [ -n "${LOG_LEVEL}" ]; then
+  CMD_ARGS+=(--log-level "${LOG_LEVEL}")
+fi
+
+# ENV_FILE: Path to .env file
+if [ -n "${ENV_FILE}" ]; then
+  CMD_ARGS+=(--env-file "${ENV_FILE}")
+fi
+
+# RELOAD: Enable auto-reload for development
+if [ -n "${RELOAD}" ] && [ "${RELOAD}" = "true" ]; then
+  CMD_ARGS+=(--reload)
+fi
+
+# INTEGRATED: Run in integrated mode (MCP + webhook)
+if [ -n "${INTEGRATED}" ] && [ "${INTEGRATED}" = "true" ]; then
+  CMD_ARGS+=(--integrated)
+fi
+
+# Print the command that will be executed
+echo "Starting MCP server with arguments: ${CMD_ARGS[@]}"
+# Only print debug command information if log level is debug (case insensitive)
+if [ -n "${LOG_LEVEL}" ] && [ "$(echo ${LOG_LEVEL} | tr '[:upper:]' '[:lower:]')" == "debug" ]; then
+  echo "[DEBUG] Run the MCP server with command: uv run codebax-mcp ${CMD_ARGS[@]}"
+fi
+
+# Execute the entry point with the collected arguments
+exec uv run codebax-mcp "${CMD_ARGS[@]}"

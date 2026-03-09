@@ -19,7 +19,7 @@ COPY pyproject.toml uv.lock LICENSE README.md ./
 # Create virtual environment and install dependencies
 RUN uv venv /app/.venv && \
     . /app/.venv/bin/activate && \
-    uv sync --locked --all-extras
+    uv sync --locked
 
 # Final stage
 FROM python:3.13-slim
