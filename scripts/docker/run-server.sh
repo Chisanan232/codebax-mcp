@@ -10,6 +10,7 @@ set -e
 # LOG_LEVEL → --log-level
 # ENV_FILE → --env-file
 # RELOAD → --reload
+# INTEGRATED → --integrated (run in integrated mode)
 #
 
 # Initialize command line arguments array
@@ -45,6 +46,11 @@ fi
 # RELOAD: Enable auto-reload for development
 if [ -n "${RELOAD}" ] && [ "${RELOAD}" = "true" ]; then
   CMD_ARGS+=(--reload)
+fi
+
+# INTEGRATED: Run in integrated mode (MCP + webhook)
+if [ -n "${INTEGRATED}" ] && [ "${INTEGRATED}" = "true" ]; then
+  CMD_ARGS+=(--integrated)
 fi
 
 # Print the command that will be executed
