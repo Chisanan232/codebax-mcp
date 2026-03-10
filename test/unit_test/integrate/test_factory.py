@@ -10,7 +10,7 @@ from codebax_mcp.integrate.app import (
     integrated_factory,
     integrated_server_lifecycle,
 )
-from codebax_mcp.mcp.app import MCPServerFactory
+from codebax_mcp.mcp_server.app import MCPServerFactory
 from codebax_mcp.models.cli import MCPTransportType
 from codebax_mcp.web_server.app import WebServerFactory
 
