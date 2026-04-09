@@ -24,7 +24,7 @@ class TestMCPServerFactory:
         # Create first instance
         server1 = MCPServerFactory.create()
         assert server1 is not None
-        assert server1.name == "TemplateMCPServer"
+        assert server1.name == "CodeBax MCP Server"
 
         # Try to create second instance - should raise AssertionError
         with pytest.raises(AssertionError, match="not allowed to create more than one instance"):
@@ -89,7 +89,7 @@ class TestMcpFactoryInstance:
         """Test creating server through mcp_factory."""
         server = mcp_factory.create()
         assert server is not None
-        assert server.name == "TemplateMCPServer"
+        assert server.name == "CodeBax MCP Server"
 
     def test_mcp_factory_get(self) -> None:
         """Test getting server through mcp_factory."""
@@ -148,7 +148,7 @@ class TestMcpServerIntegration:
         http_app = server.streamable_http_app()
         assert http_app is not None
 
-    @patch("codebax_mcp.mcp.app.FastMCP.run")
+    @patch("mcp.server.FastMCP.run")
     def test_server_stdio_run(self, mock_run: MagicMock) -> None:
         """Test running server with stdio transport."""
         # Create server
