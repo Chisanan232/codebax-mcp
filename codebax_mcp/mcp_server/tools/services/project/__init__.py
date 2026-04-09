@@ -8,24 +8,25 @@ Tools:
 """
 
 from typing import Optional
-from .conventions import get_conventions as _get_conventions
-from .layout import describe_layout as _describe_layout
-from .subprojects import list_subprojects as _list_subprojects
-from .execution import get_execution_profile as _get_execution_profile
 
 # Import I/O models
 from codebax_mcp.mcp_server.models.input import (
-    GetConventionsInput,
     DescribeLayoutInput,
-    ListSubprojectsInput,
+    GetConventionsInput,
     GetExecutionProfileInput,
+    ListSubprojectsInput,
 )
 from codebax_mcp.mcp_server.models.output import (
     ConventionsOutput,
+    ExecutionProfileOutput,
     LayoutOutput,
     SubprojectsOutput,
-    ExecutionProfileOutput,
 )
+
+from .conventions import get_conventions as _get_conventions
+from .execution import get_execution_profile as _get_execution_profile
+from .layout import describe_layout as _describe_layout
+from .subprojects import list_subprojects as _list_subprojects
 
 # # Import MCP server instance for tool registration
 # from ..app import get_mcp_instance

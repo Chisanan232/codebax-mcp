@@ -4,11 +4,10 @@ This module provides access to the FastMCP server instance for registering tools
 in the tool package modules (__init__.py files).
 """
 
-from typing import Optional
 from mcp.server import FastMCP
 
 # This will be set by the MCPServerFactory when the server is created
-mcp: Optional[FastMCP] = None
+mcp: FastMCP | None = None
 
 
 def set_mcp_instance(instance: FastMCP) -> None:

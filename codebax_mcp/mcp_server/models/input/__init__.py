@@ -274,47 +274,47 @@ When updating input models:
 
 from __future__ import annotations
 
+# Code input models
+from .code_input import (
+    AnalyzePythonPatchCallsInput,
+    CodeRange,
+    ExtractFunctionInput,
+    FindUsagesInput,
+    GetCallGraphInput,
+    GetDefinitionInput,
+    IdentifySymbolInput,
+    IndexCodebaseInput,
+    Position,
+    RenameSymbolInput,
+    SemanticSearchInput,
+)
+
 # Project input models
 from .project_input import (
-    GetConventionsInput,
     DescribeLayoutInput,
-    ListSubprojectsInput,
+    GetConventionsInput,
     GetExecutionProfileInput,
+    ListSubprojectsInput,
 )
 
 # Test input models
 from .test_input import (
-    LocateForSourceInput,
     CreateOrUpdateForSymbolInput,
-)
-
-# Code input models
-from .code_input import (
-    IndexCodebaseInput,
-    IdentifySymbolInput,
-    GetDefinitionInput,
-    FindUsagesInput,
-    GetCallGraphInput,
-    RenameSymbolInput,
-    Position,
-    CodeRange,
-    ExtractFunctionInput,
-    SemanticSearchInput,
-    AnalyzePythonPatchCallsInput,
+    LocateForSourceInput,
 )
 
 # Type input models
 from .type_input import (
+    Change,
+    ChangeEdit,
     ContextRange,
-    GetSymbolInfoInput,
     FindSimilarUsagesInput,
     GetExpectedAtPositionInput,
-    InferExpressionInput,
-    ChangeEdit,
-    Change,
-    ValidateChangesInput,
-    SuggestFixInput,
+    GetSymbolInfoInput,
     GetTechStackPreferencesInput,
+    InferExpressionInput,
+    SuggestFixInput,
+    ValidateChangesInput,
 )
 
 __all__ = [

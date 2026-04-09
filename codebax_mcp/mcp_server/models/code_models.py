@@ -1,6 +1,5 @@
 """Pydantic models for code tools input/output."""
 
-from typing import Optional, List, Dict, Any
 from pydantic import BaseModel
 
 
@@ -8,7 +7,7 @@ from pydantic import BaseModel
 class IndexCodebaseInput(BaseModel):
     workspace_root: str
     full: bool = False
-    paths: Optional[List[str]] = None
+    paths: list[str] | None = None
 
 
 class IdentifySymbolInput(BaseModel):
@@ -48,8 +47,8 @@ class RenameSymbolInput(BaseModel):
 class ExtractFunctionInput(BaseModel):
     file: str
     language: str
-    range_start: Dict[str, int]
-    range_end: Dict[str, int]
+    range_start: dict[str, int]
+    range_end: dict[str, int]
     new_name: str
     dry_run: bool = True
     workspace_root: str = "."
@@ -59,8 +58,8 @@ class SemanticSearchInput(BaseModel):
     query: str
     workspace_root: str = "."
     top_k: int = 10
-    filter_language: Optional[str] = None
-    filter_path: Optional[str] = None
+    filter_language: str | None = None
+    filter_path: str | None = None
 
 
 class AnalyzePythonPatchCallsInput(BaseModel):
@@ -72,8 +71,8 @@ class IndexCodebaseOutput(BaseModel):
     status: str
     indexed_files: int
     skipped_files: int
-    error: Optional[str] = None
-    notes: Optional[str] = None
+    error: str | None = None
+    notes: str | None = None
 
 
 class SymbolLocation(BaseModel):
@@ -83,23 +82,23 @@ class SymbolLocation(BaseModel):
 
 
 class IdentifySymbolOutput(BaseModel):
-    symbol_id: Optional[str] = None
-    name: Optional[str] = None
-    kind: Optional[str] = None
+    symbol_id: str | None = None
+    name: str | None = None
+    kind: str | None = None
     language: str
-    defined_in: Optional[SymbolLocation] = None
-    notes: Optional[str] = None
+    defined_in: SymbolLocation | None = None
+    notes: str | None = None
 
 
 class GetDefinitionOutput(BaseModel):
     symbol_id: str
-    name: Optional[str] = None
-    kind: Optional[str] = None
-    language: Optional[str] = None
-    defined_in: Optional[SymbolLocation] = None
-    signature: Optional[str] = None
-    docstring: Optional[str] = None
-    notes: Optional[str] = None
+    name: str | None = None
+    kind: str | None = None
+    language: str | None = None
+    defined_in: SymbolLocation | None = None
+    signature: str | None = None
+    docstring: str | None = None
+    notes: str | None = None
 
 
 class Usage(BaseModel):
@@ -112,9 +111,9 @@ class Usage(BaseModel):
 
 class FindUsagesOutput(BaseModel):
     symbol_id: str
-    usages: List[Usage] = []
+    usages: list[Usage] = []
     total: int = 0
-    notes: Optional[str] = None
+    notes: str | None = None
 
 
 class SearchResult(BaseModel):
@@ -123,14 +122,14 @@ class SearchResult(BaseModel):
     file: str
     kind: str
     score: float
-    docstring: Optional[str] = None
+    docstring: str | None = None
 
 
 class SemanticSearchOutput(BaseModel):
     query: str
-    results: List[SearchResult] = []
+    results: list[SearchResult] = []
     total: int = 0
-    notes: Optional[str] = None
+    notes: str | None = None
 
 
 class PatchCall(BaseModel):
@@ -142,7 +141,7 @@ class PatchCall(BaseModel):
 
 
 class AnalyzePythonPatchCallsOutput(BaseModel):
-    patches: List[PatchCall] = []
+    patches: list[PatchCall] = []
     total: int = 0
-    by_target: Dict[str, List[str]] = {}
-    notes: Optional[str] = None
+    by_target: dict[str, list[str]] = {}
+    notes: str | None = None

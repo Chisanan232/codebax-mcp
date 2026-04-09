@@ -5,18 +5,18 @@ Tools:
 - test.create_or_update_for_symbol - Create or update tests for symbols
 """
 
-from typing import Optional, List
-from codebax_mcp.mcp_server.tools.services.test.locate import locate_for_source as _locate_for_source
-from codebax_mcp.mcp_server.tools.services.test.create_update import create_or_update_for_symbol as _create_or_update_for_symbol
-
 from codebax_mcp.mcp_server.models.input import (
-    LocateForSourceInput,
     CreateOrUpdateForSymbolInput,
+    LocateForSourceInput,
 )
 from codebax_mcp.mcp_server.models.output import (
-    LocateForSourceOutput,
     CreateOrUpdateForSymbolOutput,
+    LocateForSourceOutput,
 )
+from codebax_mcp.mcp_server.tools.services.test.create_update import (
+    create_or_update_for_symbol as _create_or_update_for_symbol,
+)
+from codebax_mcp.mcp_server.tools.services.test.locate import locate_for_source as _locate_for_source
 
 # Import MCP server instance for tool registration
 from ..app import get_mcp_instance
@@ -41,8 +41,7 @@ mcp = get_mcp_instance()
     },
 )
 async def test_locate_for_source(source_path: str, workspace_root: str = ".") -> LocateForSourceOutput:
-    """
-    Find existing test files for a source file or suggest test path.
+    """Find existing test files for a source file or suggest test path.
 
     Searches for test files matching common naming patterns and detects the test framework.
     If no existing test is found, suggests where to create a new test file.
@@ -75,11 +74,9 @@ async def test_locate_for_source(source_path: str, workspace_root: str = ".") ->
         #   "existing_tests": [],
         #   "suggested_new_test_path": "tests/test_new_module.py"
         # }
+
     """
-    return _locate_for_source(LocateForSourceInput(
-        source_path=source_path,
-        workspace_root=workspace_root
-    ))
+    return _locate_for_source(LocateForSourceInput(source_path=source_path, workspace_root=workspace_root))
 
 
 @mcp.tool(
@@ -105,8 +102,7 @@ async def test_create_or_update_for_symbol(
     behavior_description: str,
     workspace_root: str = ".",
 ) -> CreateOrUpdateForSymbolOutput:
-    """
-    Create or update test for a specific symbol.
+    """Create or update test for a specific symbol.
 
     Generates test code for a function, class, or method based on the behavior description.
     Creates or updates the test file as needed.
@@ -150,12 +146,15 @@ async def test_create_or_update_for_symbol(
             intent="delete",
             behavior_description=""
         )
+
     """
-    return _create_or_update_for_symbol(CreateOrUpdateForSymbolInput(
-        source_path=source_path,
-        symbol=symbol,
-        language=language,
-        intent=intent,
-        behavior_description=behavior_description,
-        workspace_root=workspace_root
-    ))
+    return _create_or_update_for_symbol(
+        CreateOrUpdateForSymbolInput(
+            source_path=source_path,
+            symbol=symbol,
+            language=language,
+            intent=intent,
+            behavior_description=behavior_description,
+            workspace_root=workspace_root,
+        )
+    )

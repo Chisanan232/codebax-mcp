@@ -1,6 +1,6 @@
 """Type checker module - Pyright CLI integration and LSP client pool."""
 
+from .models import Diagnostic, TypeInfo
 from .pyright_client import PyrightClient
-from .models import TypeInfo, Diagnostic
 
-__all__ = ["PyrightClient", "TypeInfo", "Diagnostic"]
+__all__ = ["Diagnostic", "PyrightClient", "TypeInfo"]

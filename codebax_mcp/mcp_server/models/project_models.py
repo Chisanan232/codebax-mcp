@@ -1,13 +1,14 @@
 """Pydantic models for project tools input/output."""
 
-from typing import Optional, List, Dict, Any
+from typing import Any
+
 from pydantic import BaseModel
 
 
 # Input Models
 class GetConventionsInput(BaseModel):
     workspace_root: str
-    language_hint: Optional[str] = None
+    language_hint: str | None = None
 
 
 class DescribeLayoutInput(BaseModel):
@@ -25,34 +26,34 @@ class GetExecutionProfileInput(BaseModel):
 # Output Models
 class TestConfig(BaseModel):
     root: str
-    framework: Optional[str] = None
-    file_patterns: List[str] = []
-    naming_style: Optional[str] = None
+    framework: str | None = None
+    file_patterns: list[str] = []
+    naming_style: str | None = None
 
 
 class SourceConfig(BaseModel):
-    roots: List[str] = []
-    module_layout: Optional[str] = None
+    roots: list[str] = []
+    module_layout: str | None = None
 
 
 class Constraints(BaseModel):
-    forbid_creating_dirs: List[str] = []
+    forbid_creating_dirs: list[str] = []
     prefer_existing_over_new: bool = True
 
 
 class ConventionsOutput(BaseModel):
     test: TestConfig
     source: SourceConfig
-    style: Dict[str, Any]
-    tooling: Dict[str, Any]
+    style: dict[str, Any]
+    tooling: dict[str, Any]
     constraints: Constraints
-    notes: Optional[str] = None
+    notes: str | None = None
 
 
 class LayoutOutput(BaseModel):
-    layers: List[Dict[str, Any]] = []
-    directories: Dict[str, Any] = {}
-    notes: Optional[str] = None
+    layers: list[dict[str, Any]] = []
+    directories: dict[str, Any] = {}
+    notes: str | None = None
 
 
 class Subproject(BaseModel):
@@ -64,12 +65,12 @@ class Subproject(BaseModel):
 
 class SubprojectsOutput(BaseModel):
     workspace_root: str
-    subprojects: List[Subproject] = []
+    subprojects: list[Subproject] = []
     total: int = 0
 
 
 class ExecutionProfile(BaseModel):
-    profiles: List[Dict[str, Any]] = []
-    commands: Dict[str, str] = {}
-    entry_points: List[Dict[str, Any]] = []
-    notes: Optional[str] = None
+    profiles: list[dict[str, Any]] = []
+    commands: dict[str, str] = {}
+    entry_points: list[dict[str, Any]] = []
+    notes: str | None = None

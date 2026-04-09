@@ -10,31 +10,35 @@ Tools:
 - type.get_tech_stack_preferences - Analyze tech stack preferences
 """
 
-from typing import Optional, List, Dict, Any
-from .symbol_info import get_symbol_info as _get_symbol_info, find_similar_usages as _find_similar_usages
-from .inference import get_expected_at_position as _get_expected_at_position, infer_expression as _infer_expression
-from .validation import validate_changes as _validate_changes, suggest_fix as _suggest_fix
-from .tech_stack import get_tech_stack_preferences as _get_tech_stack_preferences
+from typing import Any, Dict, List, Optional
 
 # Import I/O models
 from codebax_mcp.mcp_server.models.input import (
-    GetSymbolInfoInput,
     FindSimilarUsagesInput,
     GetExpectedAtPositionInput,
-    InferExpressionInput,
-    ValidateChangesInput,
-    SuggestFixInput,
+    GetSymbolInfoInput,
     GetTechStackPreferencesInput,
+    InferExpressionInput,
+    SuggestFixInput,
+    ValidateChangesInput,
 )
 from codebax_mcp.mcp_server.models.output import (
-    GetSymbolInfoOutput,
     FindSimilarUsagesOutput,
     GetExpectedAtPositionOutput,
-    InferExpressionOutput,
-    ValidateChangesOutput,
-    SuggestFixOutput,
+    GetSymbolInfoOutput,
     GetTechStackPreferencesOutput,
+    InferExpressionOutput,
+    SuggestFixOutput,
+    ValidateChangesOutput,
 )
+
+from .inference import get_expected_at_position as _get_expected_at_position
+from .inference import infer_expression as _infer_expression
+from .symbol_info import find_similar_usages as _find_similar_usages
+from .symbol_info import get_symbol_info as _get_symbol_info
+from .tech_stack import get_tech_stack_preferences as _get_tech_stack_preferences
+from .validation import suggest_fix as _suggest_fix
+from .validation import validate_changes as _validate_changes
 
 # # Import MCP server instance for tool registration
 # from ..app import get_mcp_instance

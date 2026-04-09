@@ -2,21 +2,19 @@
 
 import pytest
 from pydantic import ValidationError
+
 from codebax_mcp.mcp_server.models.input import (
-    GetConventionsInput,
-    DescribeLayoutInput,
-    ListSubprojectsInput,
-    GetExecutionProfileInput,
-    LocateForSourceInput,
     CreateOrUpdateForSymbolInput,
-    IndexCodebaseInput,
-    IdentifySymbolInput,
-    GetDefinitionInput,
-    FindUsagesInput,
-    GetCallGraphInput,
-    RenameSymbolInput,
+    DescribeLayoutInput,
     ExtractFunctionInput,
-    SemanticSearchInput
+    FindUsagesInput,
+    GetConventionsInput,
+    GetDefinitionInput,
+    IdentifySymbolInput,
+    IndexCodebaseInput,
+    LocateForSourceInput,
+    RenameSymbolInput,
+    SemanticSearchInput,
 )
 
 
@@ -26,17 +24,14 @@ class TestGetConventionsInput:
     def test_get_conventions_input_creation(self):
         """Test creating GetConventionsInput."""
         input_data = GetConventionsInput(workspace_root="/path/to/project")
-        
+
         assert input_data.workspace_root == "/path/to/project"
         assert input_data.language_hint is None
 
     def test_get_conventions_input_with_language(self):
         """Test GetConventionsInput with language."""
-        input_data = GetConventionsInput(
-            workspace_root="/path/to/project",
-            language_hint="python"
-        )
-        
+        input_data = GetConventionsInput(workspace_root="/path/to/project", language_hint="python")
+
         assert input_data.language_hint == "python"
 
     def test_get_conventions_input_missing_required(self):
@@ -51,15 +46,13 @@ class TestDescribeLayoutInput:
     def test_describe_layout_input_creation(self):
         """Test creating DescribeLayoutInput."""
         input_data = DescribeLayoutInput(workspace_root="/path/to/project")
-        
+
         assert input_data.workspace_root == "/path/to/project"
 
     def test_describe_layout_input_basic(self):
         """Test DescribeLayoutInput basic creation."""
-        input_data = DescribeLayoutInput(
-            workspace_root="/path/to/project"
-        )
-        
+        input_data = DescribeLayoutInput(workspace_root="/path/to/project")
+
         assert input_data.workspace_root == "/path/to/project"
 
 
@@ -69,26 +62,20 @@ class TestIndexCodebaseInput:
     def test_index_codebase_input_creation(self):
         """Test creating IndexCodebaseInput."""
         input_data = IndexCodebaseInput(workspace_root="/path/to/project")
-        
+
         assert input_data.workspace_root == "/path/to/project"
         assert input_data.full is False
 
     def test_index_codebase_input_full_index(self):
         """Test IndexCodebaseInput with full=True."""
-        input_data = IndexCodebaseInput(
-            workspace_root="/path/to/project",
-            full=True
-        )
-        
+        input_data = IndexCodebaseInput(workspace_root="/path/to/project", full=True)
+
         assert input_data.full is True
 
     def test_index_codebase_input_with_paths(self):
         """Test IndexCodebaseInput with specific paths."""
-        input_data = IndexCodebaseInput(
-            workspace_root="/path/to/project",
-            paths=["module1.py", "module2.py"]
-        )
-        
+        input_data = IndexCodebaseInput(workspace_root="/path/to/project", paths=["module1.py", "module2.py"])
+
         assert len(input_data.paths) == 2
         assert "module1.py" in input_data.paths
 
@@ -98,13 +85,8 @@ class TestIdentifySymbolInput:
 
     def test_identify_symbol_input_creation(self):
         """Test creating IdentifySymbolInput."""
-        input_data = IdentifySymbolInput(
-            file="test.py",
-            language="python",
-            line=10,
-            column=5
-        )
-        
+        input_data = IdentifySymbolInput(file="test.py", language="python", line=10, column=5)
+
         assert input_data.file == "test.py"
         assert input_data.line == 10
         assert input_data.column == 5
@@ -112,13 +94,9 @@ class TestIdentifySymbolInput:
     def test_identify_symbol_input_with_workspace(self):
         """Test IdentifySymbolInput with workspace_root."""
         input_data = IdentifySymbolInput(
-            file="test.py",
-            language="python",
-            line=10,
-            column=5,
-            workspace_root="/path/to/project"
+            file="test.py", language="python", line=10, column=5, workspace_root="/path/to/project"
         )
-        
+
         assert input_data.workspace_root == "/path/to/project"
 
     def test_identify_symbol_input_missing_required(self):
@@ -133,16 +111,13 @@ class TestGetDefinitionInput:
     def test_get_definition_input_creation(self):
         """Test creating GetDefinitionInput."""
         input_data = GetDefinitionInput(symbol_id="test:func:foo:1")
-        
+
         assert input_data.symbol_id == "test:func:foo:1"
 
     def test_get_definition_input_with_workspace(self):
         """Test GetDefinitionInput with workspace_root."""
-        input_data = GetDefinitionInput(
-            symbol_id="test:func:foo:1",
-            workspace_root="/path/to/project"
-        )
-        
+        input_data = GetDefinitionInput(symbol_id="test:func:foo:1", workspace_root="/path/to/project")
+
         assert input_data.workspace_root == "/path/to/project"
 
 
@@ -152,18 +127,14 @@ class TestFindUsagesInput:
     def test_find_usages_input_creation(self):
         """Test creating FindUsagesInput."""
         input_data = FindUsagesInput(symbol_id="test:func:foo:1")
-        
+
         assert input_data.symbol_id == "test:func:foo:1"
         assert input_data.include_tests is False
 
     def test_find_usages_input_with_options(self):
         """Test FindUsagesInput with options."""
-        input_data = FindUsagesInput(
-            symbol_id="test:func:foo:1",
-            include_tests=True,
-            max_results=100
-        )
-        
+        input_data = FindUsagesInput(symbol_id="test:func:foo:1", include_tests=True, max_results=100)
+
         assert input_data.include_tests is True
         assert input_data.max_results == 100
 
@@ -173,22 +144,15 @@ class TestRenameSymbolInput:
 
     def test_rename_symbol_input_creation(self):
         """Test creating RenameSymbolInput."""
-        input_data = RenameSymbolInput(
-            symbol_id="test:func:foo:1",
-            new_name="bar"
-        )
-        
+        input_data = RenameSymbolInput(symbol_id="test:func:foo:1", new_name="bar")
+
         assert input_data.symbol_id == "test:func:foo:1"
         assert input_data.new_name == "bar"
 
     def test_rename_symbol_input_dry_run(self):
         """Test RenameSymbolInput with dry_run."""
-        input_data = RenameSymbolInput(
-            symbol_id="test:func:foo:1",
-            new_name="bar",
-            dry_run=True
-        )
-        
+        input_data = RenameSymbolInput(symbol_id="test:func:foo:1", new_name="bar", dry_run=True)
+
         assert input_data.dry_run is True
 
     def test_rename_symbol_input_missing_new_name(self):
@@ -202,18 +166,15 @@ class TestExtractFunctionInput:
 
     def test_extract_function_input_creation(self):
         """Test creating ExtractFunctionInput."""
-        from codebax_mcp.mcp_server.models.input import Position, CodeRange
-        
+        from codebax_mcp.mcp_server.models.input import CodeRange, Position
+
         input_data = ExtractFunctionInput(
             file="test.py",
             language="python",
-            range=CodeRange(
-                start=Position(line=10, column=0),
-                end=Position(line=20, column=0)
-            ),
+            range=CodeRange(start=Position(line=10, column=0), end=Position(line=20, column=0)),
             new_name="extracted_func",
         )
-        
+
         assert input_data.file == "test.py"
         assert input_data.language == "python"
         assert input_data.range.start.line == 10
@@ -222,19 +183,16 @@ class TestExtractFunctionInput:
 
     def test_extract_function_input_with_dry_run(self):
         """Test ExtractFunctionInput with dry_run."""
-        from codebax_mcp.mcp_server.models.input import Position, CodeRange
-        
+        from codebax_mcp.mcp_server.models.input import CodeRange, Position
+
         input_data = ExtractFunctionInput(
             file="test.py",
             language="python",
-            range=CodeRange(
-                start=Position(line=10, column=0),
-                end=Position(line=20, column=0)
-            ),
+            range=CodeRange(start=Position(line=10, column=0), end=Position(line=20, column=0)),
             new_name="extracted_func",
             dry_run=True,
         )
-        
+
         assert input_data.dry_run is True
 
 
@@ -244,7 +202,7 @@ class TestSemanticSearchInput:
     def test_semantic_search_input_creation(self):
         """Test creating SemanticSearchInput."""
         input_data = SemanticSearchInput(query="find authentication code")
-        
+
         assert input_data.query == "find authentication code"
         assert input_data.top_k == 10
 
@@ -255,7 +213,7 @@ class TestSemanticSearchInput:
             filter_language="python",
             filter_path_prefix="src/auth",
         )
-        
+
         assert input_data.filter_path_prefix == "src/auth"
         assert input_data.filter_language == "python"
 
@@ -270,20 +228,15 @@ class TestLocateForSourceInput:
 
     def test_locate_for_source_input_creation(self):
         """Test creating LocateForSourceInput."""
-        input_data = LocateForSourceInput(
-            source_path="src/module.py",
-            workspace_root="/path/to/project"
-        )
-        
+        input_data = LocateForSourceInput(source_path="src/module.py", workspace_root="/path/to/project")
+
         assert input_data.source_path == "src/module.py"
         assert input_data.workspace_root == "/path/to/project"
 
     def test_locate_for_source_input_default_workspace(self):
         """Test LocateForSourceInput with default workspace."""
-        input_data = LocateForSourceInput(
-            source_path="src/module.py"
-        )
-        
+        input_data = LocateForSourceInput(source_path="src/module.py")
+
         assert input_data.workspace_root == "."
 
 
@@ -298,9 +251,9 @@ class TestCreateOrUpdateForSymbolInput:
             language="python",
             intent="add_or_update",
             behavior_description="Test function that adds two numbers",
-            workspace_root="/path/to/project"
+            workspace_root="/path/to/project",
         )
-        
+
         assert input_data.source_path == "src/module.py"
         assert input_data.symbol == "foo"
         assert input_data.workspace_root == "/path/to/project"
@@ -312,8 +265,8 @@ class TestCreateOrUpdateForSymbolInput:
             symbol="foo",
             language="python",
             intent="add_or_update",
-            behavior_description="Test function"
+            behavior_description="Test function",
         )
-        
+
         assert input_data.workspace_root == "."
         assert input_data.language == "python"

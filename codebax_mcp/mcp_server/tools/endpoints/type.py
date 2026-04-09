@@ -10,32 +10,35 @@ Tools:
 - type.get_tech_stack_preferences - Analyze tech stack preferences
 """
 
-from typing import Optional, List
-from codebax_mcp.mcp_server.tools.services.type.symbol_info import get_symbol_info as _get_symbol_info, find_similar_usages as _find_similar_usages
-from codebax_mcp.mcp_server.tools.services.type.inference import get_expected_at_position as _get_expected_at_position, infer_expression as _infer_expression
-from codebax_mcp.mcp_server.tools.services.type.validation import validate_changes as _validate_changes, suggest_fix as _suggest_fix
-from codebax_mcp.mcp_server.tools.services.type.tech_stack import get_tech_stack_preferences as _get_tech_stack_preferences
-
 from codebax_mcp.mcp_server.models.input import (
-    GetSymbolInfoInput,
+    Change,
     ContextRange,
     FindSimilarUsagesInput,
     GetExpectedAtPositionInput,
-    InferExpressionInput,
-    ValidateChangesInput,
-    Change,
-    SuggestFixInput,
+    GetSymbolInfoInput,
     GetTechStackPreferencesInput,
+    InferExpressionInput,
+    SuggestFixInput,
+    ValidateChangesInput,
 )
 from codebax_mcp.mcp_server.models.output import (
-    GetSymbolInfoOutput,
     FindSimilarUsagesOutput,
     GetExpectedAtPositionOutput,
-    InferExpressionOutput,
-    ValidateChangesOutput,
-    SuggestFixOutput,
+    GetSymbolInfoOutput,
     GetTechStackPreferencesOutput,
+    InferExpressionOutput,
+    SuggestFixOutput,
+    ValidateChangesOutput,
 )
+from codebax_mcp.mcp_server.tools.services.type.inference import get_expected_at_position as _get_expected_at_position
+from codebax_mcp.mcp_server.tools.services.type.inference import infer_expression as _infer_expression
+from codebax_mcp.mcp_server.tools.services.type.symbol_info import find_similar_usages as _find_similar_usages
+from codebax_mcp.mcp_server.tools.services.type.symbol_info import get_symbol_info as _get_symbol_info
+from codebax_mcp.mcp_server.tools.services.type.tech_stack import (
+    get_tech_stack_preferences as _get_tech_stack_preferences,
+)
+from codebax_mcp.mcp_server.tools.services.type.validation import suggest_fix as _suggest_fix
+from codebax_mcp.mcp_server.tools.services.type.validation import validate_changes as _validate_changes
 
 # Import MCP server instance for tool registration
 from ..app import get_mcp_instance
@@ -60,24 +63,29 @@ mcp = get_mcp_instance()
 )
 async def type_get_symbol_info(
     symbol: str,
-    file: Optional[str] = None,
+    file: str | None = None,
     language: str = "python",
-    context_range: Optional[ContextRange] = None,
+    context_range: ContextRange | None = None,
     workspace_root: str = ".",
 ) -> GetSymbolInfoOutput:
     """Get function/method/class signature and return type.
-    
+
     Args:
         symbol: Symbol name to look up
         file: Optional file path for disambiguation
         language: Programming language
         context_range: Optional context range for disambiguation
         workspace_root: Path to the workspace root directory
-    
+
     Returns:
         GetSymbolInfoOutput with signature and type information
+
     """
-    return _get_symbol_info(GetSymbolInfoInput(symbol=symbol, file=file, language=language, context_range=context_range, workspace_root=workspace_root))
+    return _get_symbol_info(
+        GetSymbolInfoInput(
+            symbol=symbol, file=file, language=language, context_range=context_range, workspace_root=workspace_root
+        )
+    )
 
 
 @mcp.tool(
@@ -98,14 +106,15 @@ async def type_find_similar_usages(
     symbol: str, language: str = "python", workspace_root: str = "."
 ) -> FindSimilarUsagesOutput:
     """Find usages of similar symbols.
-    
+
     Args:
         symbol: Symbol name to find similar usages for
         language: Programming language (default: python)
         workspace_root: Path to the workspace root directory
-    
+
     Returns:
         FindSimilarUsagesOutput with similar usage locations
+
     """
     return _find_similar_usages(FindSimilarUsagesInput(symbol=symbol, language=language, workspace_root=workspace_root))
 
@@ -128,18 +137,23 @@ async def type_get_expected_at_position(
     file: str, line: int, column: int, language: str = "python", workspace_root: str = "."
 ) -> GetExpectedAtPositionOutput:
     """Get expected type at a specific code position.
-    
+
     Args:
         file: File path (relative to workspace_root)
         line: Line number (1-indexed)
         column: Column number (0-indexed)
         language: Programming language (default: python)
         workspace_root: Path to the workspace root directory
-    
+
     Returns:
         GetExpectedAtPositionOutput with expected type information
+
     """
-    return _get_expected_at_position(GetExpectedAtPositionInput(file=file, line=line, column=column, language=language, workspace_root=workspace_root))
+    return _get_expected_at_position(
+        GetExpectedAtPositionInput(
+            file=file, line=line, column=column, language=language, workspace_root=workspace_root
+        )
+    )
 
 
 @mcp.tool(
@@ -160,22 +174,31 @@ async def type_infer_expression(
     file: str,
     expression: str,
     language: str = "python",
-    context_range: Optional[ContextRange] = None,
+    context_range: ContextRange | None = None,
     workspace_root: str = ".",
 ) -> InferExpressionOutput:
     """Infer type of an expression.
-    
+
     Args:
         file: Path to the file
         expression: Expression to infer type for
         language: Programming language
         context_range: Optional context range for analysis
         workspace_root: Path to the workspace root directory
-    
+
     Returns:
         InferExpressionOutput with inferred type
+
     """
-    return _infer_expression(InferExpressionInput(file=file, expression=expression, language=language, context_range=context_range, workspace_root=workspace_root))
+    return _infer_expression(
+        InferExpressionInput(
+            file=file,
+            expression=expression,
+            language=language,
+            context_range=context_range,
+            workspace_root=workspace_root,
+        )
+    )
 
 
 @mcp.tool(
@@ -194,24 +217,29 @@ async def type_infer_expression(
 )
 async def type_validate_changes(
     file: str,
-    changes: List[Change],
+    changes: list[Change],
     language: str = "python",
     dry_run: bool = True,
     workspace_root: str = ".",
 ) -> ValidateChangesOutput:
     """Validate proposed code changes.
-    
+
     Args:
         file: Path to the file
         changes: List of changes to validate
         language: Programming language
         dry_run: If True, only validate without applying
         workspace_root: Path to the workspace root directory
-    
+
     Returns:
         ValidateChangesOutput with validation results
+
     """
-    return _validate_changes(ValidateChangesInput(file=file, changes=changes, language=language, dry_run=dry_run, workspace_root=workspace_root))
+    return _validate_changes(
+        ValidateChangesInput(
+            file=file, changes=changes, language=language, dry_run=dry_run, workspace_root=workspace_root
+        )
+    )
 
 
 @mcp.tool(
@@ -238,7 +266,7 @@ async def type_suggest_fix(
     workspace_root: str = ".",
 ) -> SuggestFixOutput:
     """Suggest type-related fixes for errors.
-    
+
     Args:
         file: File path containing the error (relative to workspace_root)
         line: Line number of the error (1-indexed)
@@ -246,11 +274,21 @@ async def type_suggest_fix(
         error_message: Error message to suggest fixes for
         language: Programming language (default: python)
         workspace_root: Path to the workspace root directory
-    
+
     Returns:
         SuggestFixOutput with suggested fixes
+
     """
-    return _suggest_fix(SuggestFixInput(file=file, line=line, column=column, error_message=error_message, language=language, workspace_root=workspace_root))
+    return _suggest_fix(
+        SuggestFixInput(
+            file=file,
+            line=line,
+            column=column,
+            error_message=error_message,
+            language=language,
+            workspace_root=workspace_root,
+        )
+    )
 
 
 @mcp.tool(
@@ -269,17 +307,16 @@ async def type_suggest_fix(
     },
 )
 async def type_get_tech_stack_preferences(
-    workspace_root: str, language: Optional[str] = None
+    workspace_root: str, language: str | None = None
 ) -> GetTechStackPreferencesOutput:
     """Analyze and return project technology preferences.
-    
+
     Args:
         workspace_root: Path to the workspace root directory
         language: Optional language hint (python, typescript, etc.)
-    
+
     Returns:
         GetTechStackPreferencesOutput with detected tech stack preferences
+
     """
     return _get_tech_stack_preferences(GetTechStackPreferencesInput(workspace_root=workspace_root, language=language))
-
-

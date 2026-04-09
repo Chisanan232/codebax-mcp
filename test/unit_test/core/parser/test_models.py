@@ -2,7 +2,8 @@
 
 import pytest
 from pydantic import ValidationError
-from codebax_mcp.core.parser.models import Symbol, SymbolKind, Range
+
+from codebax_mcp.core.parser.models import Range, Symbol, SymbolKind
 
 
 class TestRange:
@@ -10,13 +11,8 @@ class TestRange:
 
     def test_range_creation_valid(self):
         """Test creating a valid Range."""
-        range_obj = Range(
-            line_start=1,
-            column_start=0,
-            line_end=5,
-            column_end=10
-        )
-        
+        range_obj = Range(line_start=1, column_start=0, line_end=5, column_end=10)
+
         assert range_obj.line_start == 1
         assert range_obj.column_start == 0
         assert range_obj.line_end == 5
@@ -24,13 +20,8 @@ class TestRange:
 
     def test_range_single_line(self):
         """Test Range for single line."""
-        range_obj = Range(
-            line_start=10,
-            column_start=5,
-            line_end=10,
-            column_end=20
-        )
-        
+        range_obj = Range(line_start=10, column_start=5, line_end=10, column_end=20)
+
         assert range_obj.line_start == range_obj.line_end
 
     def test_range_missing_required_field(self):
@@ -40,13 +31,8 @@ class TestRange:
 
     def test_range_serialization(self):
         """Test Range serialization to dict."""
-        range_obj = Range(
-            line_start=1,
-            column_start=0,
-            line_end=5,
-            column_end=10
-        )
-        
+        range_obj = Range(line_start=1, column_start=0, line_end=5, column_end=10)
+
         data = range_obj.model_dump()
         assert data["line_start"] == 1
         assert data["line_end"] == 5
@@ -83,12 +69,7 @@ class TestSymbol:
     @pytest.fixture
     def valid_range(self):
         """Create a valid Range for testing."""
-        return Range(
-            line_start=1,
-            column_start=0,
-            line_end=5,
-            column_end=10
-        )
+        return Range(line_start=1, column_start=0, line_end=5, column_end=10)
 
     def test_symbol_creation_minimal(self, valid_range):
         """Test creating Symbol with minimal required fields."""
@@ -98,9 +79,9 @@ class TestSymbol:
             kind=SymbolKind.FUNCTION,
             language="python",
             file="test.py",
-            range=valid_range
+            range=valid_range,
         )
-        
+
         assert symbol.symbol_id == "test:function:foo:1"
         assert symbol.name == "foo"
         assert symbol.kind == SymbolKind.FUNCTION
@@ -121,9 +102,9 @@ class TestSymbol:
             range=valid_range,
             parent_id="test:class:MyClass:5",
             docstring="This is a method.",
-            signature="def bar(self, x)"
+            signature="def bar(self, x)",
         )
-        
+
         assert symbol.parent_id == "test:class:MyClass:5"
         assert symbol.docstring == "This is a method."
         assert symbol.signature == "def bar(self, x)"
@@ -135,7 +116,7 @@ class TestSymbol:
                 symbol_id="test:function:foo:1",
                 name="foo",
                 kind=SymbolKind.FUNCTION,
-                language="python"
+                language="python",
                 # Missing 'file' and 'range'
             )
 
@@ -148,9 +129,9 @@ class TestSymbol:
             language="python",
             file="test.py",
             range=valid_range,
-            docstring="Test function"
+            docstring="Test function",
         )
-        
+
         data = symbol.model_dump()
         assert data["symbol_id"] == "test:function:foo:1"
         assert data["name"] == "foo"
@@ -165,14 +146,9 @@ class TestSymbol:
             "kind": "function",
             "language": "python",
             "file": "test.py",
-            "range": {
-                "line_start": 1,
-                "column_start": 0,
-                "line_end": 5,
-                "column_end": 10
-            }
+            "range": {"line_start": 1, "column_start": 0, "line_end": 5, "column_end": 10},
         }
-        
+
         symbol = Symbol(**data)
         assert symbol.name == "foo"
         assert symbol.kind == SymbolKind.FUNCTION
@@ -185,9 +161,9 @@ class TestSymbol:
             kind=SymbolKind.CLASS,
             language="python",
             file="test.py",
-            range=valid_range
+            range=valid_range,
         )
-        
+
         assert symbol.kind == SymbolKind.CLASS
 
     def test_symbol_with_method_has_parent(self, valid_range):
@@ -199,9 +175,9 @@ class TestSymbol:
             language="python",
             file="test.py",
             range=valid_range,
-            parent_id="test:class:MyClass:5"
+            parent_id="test:class:MyClass:5",
         )
-        
+
         assert symbol.parent_id is not None
         assert "MyClass" in symbol.parent_id
 
@@ -213,27 +189,27 @@ class TestSymbol:
             kind=SymbolKind.FUNCTION,
             language="python",
             file="test.py",
-            range=valid_range
+            range=valid_range,
         )
-        
+
         symbol2 = Symbol(
             symbol_id="test:function:foo:1",
             name="foo",
             kind=SymbolKind.FUNCTION,
             language="python",
             file="test.py",
-            range=valid_range
+            range=valid_range,
         )
-        
+
         assert symbol1 == symbol2
 
     def test_symbol_with_multiline_docstring(self, valid_range):
         """Test Symbol with multiline docstring."""
         docstring = """This is a multiline docstring.
-        
+
         It has multiple paragraphs.
         """
-        
+
         symbol = Symbol(
             symbol_id="test:function:foo:1",
             name="foo",
@@ -241,7 +217,7 @@ class TestSymbol:
             language="python",
             file="test.py",
             range=valid_range,
-            docstring=docstring
+            docstring=docstring,
         )
-        
+
         assert "\n" in symbol.docstring

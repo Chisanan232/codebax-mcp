@@ -7,24 +7,22 @@ Tools:
 - project.get_execution_profile - Detect execution profiles and commands
 """
 
-from typing import Optional
-from codebax_mcp.mcp_server.tools.services.project.conventions import get_conventions as _get_conventions
-from codebax_mcp.mcp_server.tools.services.project.layout import describe_layout as _describe_layout
-from codebax_mcp.mcp_server.tools.services.project.subprojects import list_subprojects as _list_subprojects
-from codebax_mcp.mcp_server.tools.services.project.execution import get_execution_profile as _get_execution_profile
-
 from codebax_mcp.mcp_server.models.input import (
-    GetConventionsInput,
     DescribeLayoutInput,
-    ListSubprojectsInput,
+    GetConventionsInput,
     GetExecutionProfileInput,
+    ListSubprojectsInput,
 )
 from codebax_mcp.mcp_server.models.output import (
     ConventionsOutput,
+    ExecutionProfileOutput,
     LayoutOutput,
     SubprojectsOutput,
-    ExecutionProfileOutput,
 )
+from codebax_mcp.mcp_server.tools.services.project.conventions import get_conventions as _get_conventions
+from codebax_mcp.mcp_server.tools.services.project.execution import get_execution_profile as _get_execution_profile
+from codebax_mcp.mcp_server.tools.services.project.layout import describe_layout as _describe_layout
+from codebax_mcp.mcp_server.tools.services.project.subprojects import list_subprojects as _list_subprojects
 
 # Import MCP server instance for tool registration
 from ..app import get_mcp_instance
@@ -50,9 +48,8 @@ mcp = get_mcp_instance()
         "openWorldHint": True,
     },
 )
-async def project_get_conventions(workspace_root: str, language_hint: Optional[str] = None) -> ConventionsOutput:
-    """
-    Auto-detect project conventions and structure.
+async def project_get_conventions(workspace_root: str, language_hint: str | None = None) -> ConventionsOutput:
+    """Auto-detect project conventions and structure.
 
     Analyzes the workspace to detect:
     - Test framework (pytest, unittest, nose)
@@ -78,11 +75,9 @@ async def project_get_conventions(workspace_root: str, language_hint: Optional[s
         #   "tooling": {"python": {"manager": "uv", "lock_files": ["uv.lock"]}, ...},
         #   "constraints": {"forbid_creating_dirs": [".git", "__pycache__"], ...}
         # }
+
     """
-    return _get_conventions(GetConventionsInput(
-        workspace_root=workspace_root,
-        language_hint=language_hint
-    ))
+    return _get_conventions(GetConventionsInput(workspace_root=workspace_root, language_hint=language_hint))
 
 
 @mcp.tool(
@@ -101,8 +96,7 @@ async def project_get_conventions(workspace_root: str, language_hint: Optional[s
     },
 )
 async def project_describe_layout(workspace_root: str) -> LayoutOutput:
-    """
-    Describe project layer structure and responsibilities.
+    """Describe project layer structure and responsibilities.
 
     Scans the workspace directory structure to identify:
     - Project layers (src, tests, docs, etc.)
@@ -126,6 +120,7 @@ async def project_describe_layout(workspace_root: str) -> LayoutOutput:
         #   ],
         #   "directories": {...}
         # }
+
     """
     return _describe_layout(DescribeLayoutInput(workspace_root=workspace_root))
 
@@ -146,8 +141,7 @@ async def project_describe_layout(workspace_root: str) -> LayoutOutput:
     },
 )
 async def project_list_subprojects(workspace_root: str) -> SubprojectsOutput:
-    """
-    List subprojects and workspaces.
+    """List subprojects and workspaces.
 
     Detects and lists all subprojects in the workspace:
     - Python subprojects (with pyproject.toml)
@@ -171,6 +165,7 @@ async def project_list_subprojects(workspace_root: str) -> SubprojectsOutput:
         #   ],
         #   "total": 2
         # }
+
     """
     return _list_subprojects(ListSubprojectsInput(workspace_root=workspace_root))
 
@@ -192,13 +187,9 @@ async def project_list_subprojects(workspace_root: str) -> SubprojectsOutput:
     },
 )
 async def project_get_execution_profile(
-    workspace_root: str,
-    intent: str,
-    language: Optional[str] = None,
-    package_hint: Optional[str] = None
+    workspace_root: str, intent: str, language: str | None = None, package_hint: str | None = None
 ) -> ExecutionProfileOutput:
-    """
-    Detect execution profiles and available commands.
+    """Detect execution profiles and available commands.
 
     Identifies:
     - Available commands (test, lint, format, build, etc.)
@@ -230,10 +221,10 @@ async def project_get_execution_profile(
         #     {"name": "codebax-mcp", "command": "python -m codebax_mcp.entry", "type": "module"}
         #   ]
         # }
+
     """
-    return _get_execution_profile(GetExecutionProfileInput(
-        workspace_root=workspace_root,
-        intent=intent,
-        language=language,
-        package_hint=package_hint
-    ))
+    return _get_execution_profile(
+        GetExecutionProfileInput(
+            workspace_root=workspace_root, intent=intent, language=language, package_hint=package_hint
+        )
+    )

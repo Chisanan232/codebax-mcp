@@ -4,10 +4,10 @@ These models represent core domain concepts used across the application.
 They are shared between tool implementations and provide type-safe data structures.
 """
 
-from .location import CodeLocation, CodeRange
-from .symbol import Symbol, SymbolUsage, SymbolReference
-from .diagnostic import Diagnostic
 from .change import CodeChange, RefactoringOperation
+from .diagnostic import Diagnostic
+from .location import CodeLocation, CodeRange
+from .symbol import Symbol, SymbolReference, SymbolUsage
 
 __all__ = [
     # Location models
