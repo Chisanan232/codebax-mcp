@@ -79,7 +79,7 @@ from mcp.server import FastMCP
 
 from .._base import BaseServerFactory
 
-SERVER_NAME: Final[str] = "TemplateMCPServer"
+SERVER_NAME: Final[str] = "CodeBax MCP Server"
 
 _MCP_SERVER_INSTANCE: FastMCP | None = None
 
@@ -160,6 +160,14 @@ class MCPServerFactory(BaseServerFactory[FastMCP]):
         global _MCP_SERVER_INSTANCE
         assert _MCP_SERVER_INSTANCE is None, "It is not allowed to create more than one instance of FastMCP."
         _MCP_SERVER_INSTANCE = FastMCP(name=SERVER_NAME)
+        
+        # Set the MCP instance for tool registration in tool packages
+        from .tools.app import set_mcp_instance
+        set_mcp_instance(_MCP_SERVER_INSTANCE)
+        
+        # Import endpoint modules to register MCP tools via decorators
+        from .tools.endpoints import project, test, code, type as type_tools
+        
         return _MCP_SERVER_INSTANCE
 
     @staticmethod
