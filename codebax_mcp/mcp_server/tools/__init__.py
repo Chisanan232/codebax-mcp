@@ -220,31 +220,21 @@ Import this package in your main MCP application:
 
 from __future__ import annotations
 
-# Import all tool modules to register them with the MCP server
-# Child projects should add their tool imports here:
+# Import endpoint modules to register MCP tools
+# Tools are registered via @mcp.tool() decorators in endpoints/*.py
+# This import happens AFTER MCP instance initialization to avoid circular dependencies
 
-# Example imports (uncomment and modify for your tools):
-# from .calculator import calculate
-# from .database import query_database
-# from .file_operations import read_file, write_file
-# from .api_client import call_external_api
+# from . import endpoints
 
-__all__ = [
-    # Add your tool functions here
-    # "calculate",
-    # "query_database",
-    # "read_file",
-    # "write_file",
-    # "call_external_api",
-]
+__all__ = ["endpoints"]
 
 # Package metadata for tool discovery
 __tool_package__ = True
-__tool_version__ = "1.0.0"
+__tool_version__ = "0.0.1"
 __supported_features__ = [
     "synchronous_tools",
     "asynchronous_tools",
-    "error_handling",
+    "streaming_tools",
     "input_validation",
     "output_validation",
 ]
