@@ -35,7 +35,7 @@ classifiers = [
 ]
 dependencies = [
     # Web server
-    "fastapi>=0.128.0",
+    "fastapi>=0.135.3",
     # Data type validation as data models
     "pydantic>=2.12.5",
     # Data type validation as data models for settings (e.g., dotenv file)
