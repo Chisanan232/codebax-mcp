@@ -1,0 +1,41 @@
+"""Shared AST and Symbol models."""
+
+from enum import Enum
+
+from pydantic import BaseModel
+
+
+class SymbolKind(str, Enum):
+    """Symbol kinds."""
+
+    FUNCTION = "function"
+    CLASS = "class"
+    METHOD = "method"
+    VARIABLE = "variable"
+    IMPORT = "import"
+    MODULE = "module"
+    PARAMETER = "parameter"
+    PROPERTY = "property"
+
+
+class Range(BaseModel):
+    """Code range."""
+
+    line_start: int
+    column_start: int
+    line_end: int
+    column_end: int
+
+
+class Symbol(BaseModel):
+    """Symbol definition."""
+
+    symbol_id: str
+    name: str
+    kind: SymbolKind
+    language: str
+    file: str
+    range: Range
+    parent_id: str | None = None
+    docstring: str | None = None
+    signature: str | None = None
